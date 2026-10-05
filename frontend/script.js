@@ -17,10 +17,33 @@ document.addEventListener('DOMContentLoaded', () => {
     courseTitles = document.getElementById('courseTitles');
     newChatButton = document.getElementById('newChatButton');
     
+    setupThemeToggle();
     setupEventListeners();
     createNewSession();
     loadCourseStats();
 });
+
+// Theme toggle
+function setupThemeToggle() {
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+
+    const updateLabel = () => {
+        const isLight = root.getAttribute('data-theme') === 'light';
+        toggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+    };
+    updateLabel();
+
+    toggle.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        // Enable color transitions only during the switch so normal hover/focus stay snappy
+        root.classList.add('theme-transition');
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        updateLabel();
+        setTimeout(() => root.classList.remove('theme-transition'), 400);
+    });
+}
 
 // Event Listeners
 function setupEventListeners() {

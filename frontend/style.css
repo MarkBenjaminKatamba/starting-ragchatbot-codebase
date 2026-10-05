@@ -15,6 +15,7 @@
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
     --border-color: #334155;
+    --border-strong: #334155;
     --user-message: #2563eb;
     --assistant-message: #374151;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
@@ -24,6 +25,55 @@
     --welcome-border: #2563eb;
     --link-color: #60a5fa;
     --link-hover: #93c5fd;
+    --code-bg: rgba(0, 0, 0, 0.2);
+    --welcome-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --error-bg: rgba(239, 68, 68, 0.1);
+    --error-text: #f87171;
+    --error-border: rgba(239, 68, 68, 0.2);
+    --success-bg: rgba(34, 197, 94, 0.1);
+    --success-text: #4ade80;
+    --success-border: rgba(34, 197, 94, 0.2);
+    color-scheme: dark;
+}
+
+/* Light Theme */
+:root[data-theme="light"] {
+    /* Contrast (WCAG 2.x) against the surfaces they sit on:
+       text-primary 17:1, text-secondary 7:1, primary 6.4-6.7:1,
+       white on primary 6.7:1, border-strong >= 3:1 for form controls */
+    --primary-color: #1d4ed8;
+    --primary-hover: #1e40af;
+    --user-message: #1d4ed8;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --surface-hover: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border-color: #cbd5e1;
+    --border-strong: #7a8ba3;
+    --assistant-message: #e8eef6;
+    --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.12);
+    --focus-ring: rgba(29, 78, 216, 0.3);
+    --welcome-bg: #dbeafe;
+    --link-color: #1d4ed8;
+    --link-hover: #1e40af;
+    --code-bg: rgba(15, 23, 42, 0.08);
+    --welcome-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+    --error-bg: rgba(239, 68, 68, 0.08);
+    --error-text: #b91c1c;
+    --error-border: rgba(239, 68, 68, 0.3);
+    --success-bg: rgba(34, 197, 94, 0.1);
+    --success-text: #166534;
+    --success-border: rgba(34, 197, 94, 0.35);
+    color-scheme: light;
+}
+
+/* Smooth theme switch (class is added briefly by script.js while toggling) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+    transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease !important;
 }
 
 /* Base Styles */
@@ -288,7 +338,7 @@ header h1 {
 }
 
 .message-content code {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--code-bg);
     padding: 0.125rem 0.25rem;
     border-radius: 3px;
     font-family: 'Fira Code', 'Consolas', monospace;
@@ -296,7 +346,7 @@ header h1 {
 }
 
 .message-content pre {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--code-bg);
     padding: 0.75rem;
     border-radius: 4px;
     overflow-x: auto;
@@ -309,7 +359,7 @@ header h1 {
 }
 
 .message-content blockquote {
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--primary-color);
     padding-left: 1rem;
     margin: 0.5rem 0;
     color: var(--text-secondary);
@@ -319,7 +369,7 @@ header h1 {
 .message.welcome-message .message-content {
     background: var(--surface);
     border: 2px solid var(--border-color);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--welcome-shadow);
     position: relative;
 }
 
@@ -352,7 +402,7 @@ header h1 {
     flex: 1;
     padding: 0.875rem 1.25rem;
     background: var(--surface);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-strong);
     border-radius: 24px;
     color: var(--text-primary);
     font-size: 0.95rem;
@@ -438,21 +488,21 @@ header h1 {
 
 /* Error Message */
 .error-message {
-    background: rgba(239, 68, 68, 0.1);
-    color: #f87171;
+    background: var(--error-bg);
+    color: var(--error-text);
     padding: 0.75rem 1.25rem;
     border-radius: 8px;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    border: 1px solid var(--error-border);
     margin: 0.5rem 0;
 }
 
 /* Success Message */
 .success-message {
-    background: rgba(34, 197, 94, 0.1);
-    color: #4ade80;
+    background: var(--success-bg);
+    color: var(--success-text);
     padding: 0.75rem 1.25rem;
     border-radius: 8px;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    border: 1px solid var(--success-border);
     margin: 0.5rem 0;
 }
 
@@ -645,7 +695,7 @@ details[open] .suggested-header::before {
 .suggested-item {
     padding: 0.75rem 1rem;
     background: var(--background);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-strong);
     border-radius: 8px;
     color: var(--text-primary);
     font-size: 0.875rem;
@@ -747,5 +797,72 @@ details[open] .suggested-header::before {
 @media (max-width: 1024px) {
     .sidebar {
         width: 280px;
+    }
+}
+
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary-color);
+}
+
+.theme-toggle:active {
+    transform: scale(0.92);
+}
+
+.theme-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring), 0 0 0 1px var(--primary-color);
+}
+
+.theme-toggle .icon {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Dark theme shows the sun (click to go light); light theme shows the moon */
+.theme-toggle .icon-moon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+}
+
+:root[data-theme="light"] .theme-toggle .icon-sun {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+
+:root[data-theme="light"] .theme-toggle .icon-moon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle,
+    .theme-toggle .icon,
+    html.theme-transition,
+    html.theme-transition * {
+        transition-duration: 0.01ms !important;
     }
 }
