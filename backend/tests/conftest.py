@@ -19,8 +19,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 
-
 # --- Request/response models (mirrors backend/app.py) ---
+
 
 class QueryRequest(BaseModel):
     query: str
@@ -84,6 +84,7 @@ def create_test_app(rag_system, static_dir) -> FastAPI:
 
 # --- Test data ---
 
+
 @pytest.fixture
 def sample_sources() -> List[dict]:
     """Sources as returned by RAGSystem.query(): one with a link, one without."""
@@ -103,6 +104,7 @@ def sample_analytics() -> dict:
 
 # --- Mocks ---
 
+
 @pytest.fixture
 def mock_rag_system(sample_sources, sample_analytics) -> MagicMock:
     """A RAGSystem stand-in with sensible defaults; override per test as needed."""
@@ -114,6 +116,7 @@ def mock_rag_system(sample_sources, sample_analytics) -> MagicMock:
 
 
 # --- App / client ---
+
 
 @pytest.fixture
 def static_dir(tmp_path):

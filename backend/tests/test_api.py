@@ -55,11 +55,11 @@ class TestQueryEndpoint:
     @pytest.mark.parametrize(
         "payload",
         [
-            {},                                  # missing query
-            {"session_id": "s1"},                # missing query
-            {"query": 123},                      # wrong type
-            {"query": None},                     # null query
-            {"query": "ok", "session_id": 42},   # wrong session_id type
+            {},  # missing query
+            {"session_id": "s1"},  # missing query
+            {"query": 123},  # wrong type
+            {"query": None},  # null query
+            {"query": "ok", "session_id": 42},  # wrong session_id type
         ],
     )
     def test_invalid_payload_returns_422(self, client, mock_rag_system, payload):
@@ -70,7 +70,9 @@ class TestQueryEndpoint:
 
     def test_non_json_body_returns_422(self, client):
         response = client.post(
-            "/api/query", content="not json", headers={"Content-Type": "application/json"}
+            "/api/query",
+            content="not json",
+            headers={"Content-Type": "application/json"},
         )
 
         assert response.status_code == 422
@@ -84,7 +86,9 @@ class TestQueryEndpoint:
         assert response.json() == {"detail": "Anthropic unavailable"}
 
     def test_session_creation_failure_returns_500(self, client, mock_rag_system):
-        mock_rag_system.session_manager.create_session.side_effect = RuntimeError("boom")
+        mock_rag_system.session_manager.create_session.side_effect = RuntimeError(
+            "boom"
+        )
 
         response = client.post("/api/query", json={"query": "q"})
 
@@ -138,7 +142,9 @@ class TestSessionEndpoint:
 
         assert response.status_code == 200
         assert response.json() == {"success": True}
-        mock_rag_system.session_manager.clear_session.assert_called_once_with("session_9")
+        mock_rag_system.session_manager.clear_session.assert_called_once_with(
+            "session_9"
+        )
 
     def test_delete_failure_returns_500(self, client, mock_rag_system):
         mock_rag_system.session_manager.clear_session.side_effect = RuntimeError("nope")
@@ -171,9 +177,13 @@ class TestRootEndpoint:
 class TestQueryCourseFlow:
     """Multi-request flows through the same app instance."""
 
-    def test_session_id_from_first_response_can_be_reused(self, client, mock_rag_system):
+    def test_session_id_from_first_response_can_be_reused(
+        self, client, mock_rag_system
+    ):
         first = client.post("/api/query", json={"query": "one"}).json()
-        client.post("/api/query", json={"query": "two", "session_id": first["session_id"]})
+        client.post(
+            "/api/query", json={"query": "two", "session_id": first["session_id"]}
+        )
 
         assert mock_rag_system.session_manager.create_session.call_count == 1
         assert mock_rag_system.query.call_args_list[1].args == ("two", "session_1")
