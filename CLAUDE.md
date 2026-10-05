@@ -12,9 +12,12 @@ A Retrieval-Augmented Generation (RAG) system for querying course materials: a F
 uv sync                                                   # install dependencies (Python >=3.13, managed by uv)
 cd backend && uv run uvicorn app:app --reload --port 8000 # run the dev server
 ./run.sh                                                   # same as above, plus `mkdir -p docs`
+./scripts/format.sh                                        # auto-format Python code with black
+./scripts/check.sh                                         # verify formatting without changing files (CI-safe)
 ```
 
-- `run.sh` is a bash script — on Windows it must be run from Git Bash, not PowerShell/cmd.
+- Code style is enforced by [black](https://black.readthedocs.io/) (config in `pyproject.toml`, dev dependency group). Run `./scripts/format.sh` before committing; `./scripts/check.sh` is the quality gate and is the place to add further checks (linting, tests) later.
+- `run.sh` and the `scripts/*.sh` helpers are bash scripts — on Windows they must be run from Git Bash, not PowerShell/cmd.
 - The app must be started from inside `backend/`: `app.py` imports sibling modules unqualified (`from config import config`, `from rag_system import RAGSystem`, etc.), so it will not import correctly run from the repo root.
 - Requires a `.env` file (repo root) with `ANTHROPIC_API_KEY=...`. There is an `.env.example` template.
 - Runs at `http://localhost:8000` (chat UI) and `http://localhost:8000/docs` (FastAPI/Swagger).
