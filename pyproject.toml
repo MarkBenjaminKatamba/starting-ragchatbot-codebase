@@ -17,6 +17,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "black>=26.10.0",
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
 ]
 
 [tool.black]
@@ -28,3 +30,11 @@ extend-exclude = '''
   | chroma_db
 )/
 '''
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
+addopts = "-ra --strict-markers --strict-config"
+markers = [
+    "api: HTTP-level tests of the FastAPI endpoints",
+]
